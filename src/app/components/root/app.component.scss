@@ -1,3 +1,6 @@
+$blockbg: rgba(220, 252, 252, 0.4);
+$borderRadius: 10px;
+
 .canvas {
   position: relative;
   background-image: url("../../../assets/planets.gif");
@@ -10,18 +13,20 @@
   }
 
   .gameBody {
-    padding: 2rem;
+    padding: 1rem;
 
     div:nth-child(1){
-        background-color: grey;
+      background-color: $blockbg;
+      border-radius: $borderRadius 0 0 $borderRadius;
     }
 
     div:nth-child(2) {
-      background-color: rgb(220, 252, 252);
+      background-color: $blockbg;
     }
 
     div:nth-child(3){
-        background-color: greenyellow;
+      background-color: $blockbg;
+      border-radius: 0 $borderRadius $borderRadius 0;
     }
   }
 }

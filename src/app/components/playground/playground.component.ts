@@ -1,5 +1,6 @@
 import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { createCustomElement } from "@angular/elements"
+import { BlockService } from 'src/app/services/block.service';
 
 @Component({
   selector: 'game-playground',
@@ -12,17 +13,13 @@ export class PlaygroundComponent implements OnInit, AfterContentInit {
   @ViewChild('playgroundContainer', { static: true })
   playgound!: ElementRef
 
-  constructor() { }
+  constructor(private blocks: BlockService) { }
 
   ngAfterContentInit(): void {
     this.playgroundRef = this.playgound.nativeElement;
     
-    const block: HTMLDivElement = document.createElement('div')
-    block.classList.add("block")
-
-    this.playgroundRef.append(block)
+    this.blocks.insertBlockRows(this.playgroundRef, 16)
   }
 
   ngOnInit(): void {}
-
 }

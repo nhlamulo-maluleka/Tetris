@@ -8,6 +8,7 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { NextItemsComponent } from './components/next-items/next-items.component';
 import { PlayerDetailsComponent } from './components/player-details/player-details.component';
+import { BlockService } from './services/block.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { PlayerDetailsComponent } from './components/player-details/player-detai
     AppRoutingModule,
     NgbModule
   ],
-  providers: [],
+  providers: [BlockService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

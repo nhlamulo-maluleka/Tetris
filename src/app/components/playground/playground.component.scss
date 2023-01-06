@@ -1,8 +1,7 @@
 .playground{
     display: flex;
-    flex-wrap: wrap;
-
-    // $blockSize: 100px;
-
-    
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
 }
