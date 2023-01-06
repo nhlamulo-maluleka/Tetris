@@ -2,13 +2,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    $blockSize: 100px;
+    // $blockSize: 100px;
 
-    .block{
-        width: $blockSize;
-        height: $blockSize;
-        background-color: red;
-        border: 1px solid #000;
-        border-radius: 8px;
-    }
+    
 }

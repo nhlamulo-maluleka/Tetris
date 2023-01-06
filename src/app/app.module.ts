@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/root/app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PlaygroundComponent } from './components/playground/playground.component';
-import { ManifestService } from './services/manifest/manifest.service';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { NextItemsComponent } from './components/next-items/next-items.component';
 import { PlayerDetailsComponent } from './components/player-details/player-details.component';
@@ -23,7 +22,7 @@ import { PlayerDetailsComponent } from './components/player-details/player-detai
     AppRoutingModule,
     NgbModule
   ],
-  providers: [ManifestService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

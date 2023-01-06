@@ -2,3 +2,13 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+$blockSize: 60px;
+
+.block{
+    width: $blockSize;
+    height: $blockSize;
+    background-color: red;
+    border: 1px solid #000;
+    border-radius: 4px;
+}

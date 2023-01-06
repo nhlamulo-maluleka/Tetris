@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ManifestService } from './manifest.service';
+import { BlockService } from './block.service';
 
-describe('ManifestService', () => {
-  let service: ManifestService;
+describe('BlockService', () => {
+  let service: BlockService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ManifestService);
+    service = TestBed.inject(BlockService);
   });
 
   it('should be created', () => {

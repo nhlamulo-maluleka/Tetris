@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ManifestService } from 'src/app/services/manifest/manifest.service';
 
 @Component({
   selector: 'game-navigation',
@@ -9,9 +8,9 @@ import { ManifestService } from 'src/app/services/manifest/manifest.service';
 export class NavigationComponent implements OnInit {
   title!: any;
 
-  constructor(private manifest: ManifestService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.title = this.manifest.bgImage;
+    
   }
 }

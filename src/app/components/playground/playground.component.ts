@@ -23,22 +23,6 @@ export class PlaygroundComponent implements OnInit, AfterContentInit {
     this.playgroundRef.append(block)
   }
 
-  ngOnInit(): void {
-    // this.playgroundElement =  
-    // cols!: string
-    // max: number = 7
-
-    // this.cols = "*";
-
-    // for (let i = 0; i <= this.max; i++) {
-    //   console.log(this.cols)
-    //   if (i < ((this.max / 2) | 0)) {
-    //     this.cols += "*"
-    //   } else {
-    //     this.cols = this.cols.substring(0, this.cols.length - 1)
-    //   }
-    // }
-    console.log("ngInit")
-  }
+  ngOnInit(): void {}
 
 }
