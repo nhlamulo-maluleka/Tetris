@@ -22,6 +22,7 @@ $borderRadius: 10px;
 
     div:nth-child(2) {
       background-color: $blockbg;
+      border: 3px dotted rgb(114, 5, 72);
     }
 
     div:nth-child(3){
