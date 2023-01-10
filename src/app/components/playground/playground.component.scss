@@ -1,4 +1,20 @@
 .playground{
     display: block;
     padding: 0.5rem;
+    margin: auto;
+
+    $blockSize: 20px;
+
+    .blockRow {
+        display: flex;
+        flex-wrap: nowrap;
+
+        .block {
+            width: $blockSize;
+            height: $blockSize;
+            background-color: rgb(17, 16, 16);
+            border: 1px solid rgb(36, 35, 35);
+            background-size: cover;
+        }
+    }
 }

@@ -1,86 +1,61 @@
-import { AfterViewInit, Component, ElementRef, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+import ShapeGenerator from 'src/app/helpers/ShapeGenerator';
 import IPosition from 'src/app/interfaces/IPosition';
-import { BlockService } from 'src/app/services/block.service';
-
-type validKeys = "Space" | "ArrowLeft" | "ArrowRight" | "ArrowDown" | null
+import { TetrisService } from 'src/app/services/tetris.service';
 
 @Component({
-  selector: 'game-playground',
-  templateUrl: './playground.component.html',
-  styleUrls: ['./playground.component.scss']
+	selector: 'game-playground',
+	templateUrl: './playground.component.html',
+	styleUrls: ['./playground.component.scss']
 })
 export class PlaygroundComponent implements OnInit, AfterViewInit {
-  private playgroundRef!: HTMLDivElement;
-  private currentShape!: IPosition | null;
-  private ROW_SIZE: number = 23;
-  private COLUMN_SIZE: number = 20;
-  private movementDuration: number = 500;
-  private timer!: NodeJS.Timeout;
-  private isKeyed!: Boolean;
+	private gameContainer!: HTMLDivElement;
+	private currentShape!: IPosition | null;
+	private ROW_SIZE: number = 21;
+	private COLUMN_SIZE: number = 17;
+	private duration: number = 1000;
+	private gameState$!: Subscription;
 
-  @ViewChild('playgroundContainer', { static: true })
-  playgound!: ElementRef
+	@ViewChild('playgroundContainer', { static: true })
+	container!: ElementRef
 
-  constructor(private blocks: BlockService) { }
+	constructor(private game: TetrisService) { }
 
-  ngAfterViewInit(): void {
-    this.playgroundRef = this.playgound.nativeElement;
-    this.blocks.drawBlockMatrix(this.playgroundRef, this.ROW_SIZE, this.COLUMN_SIZE);
-    this.currentShape = this.blocks.generateBlockShape();
-    this.isKeyed = false;
+	ngAfterViewInit(): void {
+		const update$ = interval(this.duration)
+		this.gameContainer = this.container.nativeElement;
 
-    this.startGame();
-  }
+		this.game.renderBlockMatrix(this.gameContainer, this.ROW_SIZE, this.COLUMN_SIZE);
+		this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
 
-  ngOnInit(): void {
-    document.addEventListener("keydown", (event: KeyboardEvent) => {
-      if ((event.code === "Space" || event.code === "ArrowLeft"
-        || event.code === "ArrowRight" || event.code === "ArrowDown")
-        && (this.currentShape !== null)) {
-        this.isKeyed = true;
-        switch (event.code) {
-          case "Space":
-            this.blocks.transform(this.currentShape)
-            break;
-          case "ArrowLeft":
-            this.blocks.shiftLeft(this.currentShape)
-            break;
-          case "ArrowRight":
-            this.blocks.shiftRight(this.currentShape)
-            break;
-          case "ArrowDown":
-            this.blocks.move(this.currentShape)
-            break;
-        }
-      }
-    })
-  }
+		// this.gameState$ = update$.subscribe(() => {
+		// 	if (this.blocks.move(this.currentShape!))
+		// 		this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
+		// })
+	}
 
-  public blockComp(): void {
-    if (!this.isKeyed) {
-      if (this.blocks.move(this.currentShape!)) {
-        // Reset current object
-        this.currentShape = null;
-        this.currentShape = this.blocks.generateBlockShape();
-        // console.log("Inner😎😋😊...", this.currentShape)
-        // return;
-        // Clearing the Interval
-        // this.stopGame();
+	ngOnInit(): void {
+		document.addEventListener("keydown", (event: KeyboardEvent) => {
+			if ((event.code === "Space" || event.code === "ArrowLeft"
+				|| event.code === "ArrowRight" || event.code === "ArrowDown")
+				&& (this.currentShape !== null)) {
 
-        // Restarting the Interval
-        // this.startGame();
-      }
-
-      this.stopGame();
-      this.startGame();
-    } else console.log("Keyed....😎😴😴")
-  }
-
-  public startGame(): void {
-    this.timer = setTimeout(this.blockComp.bind(this), this.movementDuration);
-  }
-
-  public stopGame(): void {
-    clearInterval(this.timer);
-  }
+				// switch (event.code) {
+				// 	case "Space":
+				// 		this.blocks.transform(this.currentShape)
+				// 		break;
+				// 	case "ArrowLeft":
+				// 		this.blocks.shiftLeft(this.currentShape)
+				// 		break;
+				// 	case "ArrowRight":
+				// 		this.blocks.shiftRight(this.currentShape)
+				// 		break;
+				// 	case "ArrowDown":
+				// 		this.blocks.move(this.currentShape)
+				// 		break;
+				// }
+			}
+		})
+	}
 }

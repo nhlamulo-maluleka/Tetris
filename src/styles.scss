@@ -3,17 +3,20 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
-$blockSize: 23px;
+$blockSize: 28px;
 
-.blockRow {
+.rowBlock {
     display: flex;
     flex-wrap: nowrap;
+    // gap: .2rem;
+    // margin-bottom: .2rem;
 
     .block {
         width: $blockSize;
         height: $blockSize;
-        background-color: rgb(17, 16, 16);
-        border: 1px solid rgb(36, 35, 35);
+        background-color: rgb(19, 9, 9);
+        border: 1px solid rgb(34, 34, 34);
         background-size: cover;
+        // border-radius: .2rem;
     }
 }

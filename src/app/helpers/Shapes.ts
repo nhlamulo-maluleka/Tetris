@@ -1,10 +1,8 @@
 import IPosition from "../interfaces/IPosition";
 
 export default class Shapes {
-    private shapes!: Array<IPosition>;
-
-    constructor(centerRow: number, centerColumn: number) {
-        this.shapes = [
+    protected static getBlockShapes(centerRow: number, centerColumn: number): Array<IPosition> {
+        return [
             {
                 shape: "T-block",
                 image: "purple.png",
@@ -542,9 +540,5 @@ export default class Shapes {
                 }
             }
         ]
-    }
-
-    public get blockShapes(): Array<IPosition> {
-        return this.shapes;
     }
 }

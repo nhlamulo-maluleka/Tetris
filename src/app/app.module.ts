@@ -6,24 +6,20 @@ import { AppComponent } from './components/root/app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PlaygroundComponent } from './components/playground/playground.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { NextItemsComponent } from './components/next-items/next-items.component';
-import { PlayerDetailsComponent } from './components/player-details/player-details.component';
-import { BlockService } from './services/block.service';
+import { TetrisService } from './services/tetris.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlaygroundComponent,
     NavigationComponent,
-    NextItemsComponent,
-    PlayerDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule
   ],
-  providers: [BlockService],
+  providers: [TetrisService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
