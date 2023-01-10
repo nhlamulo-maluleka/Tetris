@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { interval, Subscription } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import ShapeGenerator from 'src/app/helpers/ShapeGenerator';
+import TetrisGame from 'src/app/helpers/TetrisGame';
 import IPosition from 'src/app/interfaces/IPosition';
 import { TetrisService } from 'src/app/services/tetris.service';
 
@@ -14,27 +15,40 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 	private currentShape!: IPosition | null;
 	private ROW_SIZE: number = 21;
 	private COLUMN_SIZE: number = 17;
-	private duration: number = 500;
+	private duration: number = 100;
 	private gameState$!: Subscription;
+	private update$!: Observable<number>;
 
 	@ViewChild('playgroundContainer', { static: true })
 	container!: ElementRef
 
 	constructor(private game: TetrisService) { }
 
-	ngAfterViewInit(): void {
-		const update$ = interval(this.duration)
-		this.gameContainer = this.container.nativeElement;
+	private startGame(gridContainer: HTMLDivElement): void {
+		this.update$ = interval(this.duration)
+		this.game.setGameOver(false)
 
 		this.game.renderBlockMatrix(this.gameContainer, this.ROW_SIZE, this.COLUMN_SIZE);
 		this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
 
-		this.gameState$ = update$.subscribe(() => {
-			if(this.game.isGameOver()) this.gameState$.unsubscribe()
+		this.gameState$ = this.update$.subscribe(() => {
+			if (this.game.isGameOver()) {
+				this.gameState$.unsubscribe()
 
-			if (this.game.descendShapeOrGenerate(this.currentShape!))
+				this.startGame(gridContainer)
+			}
+
+			if (this.game.descendShapeOrGenerate(this.currentShape!)) {
+				
+
 				this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
-		})
+			}
+		})	
+	}
+
+	ngAfterViewInit(): void {
+		this.gameContainer = this.container.nativeElement;
+		this.startGame(this.gameContainer);
 	}
 
 	ngOnInit(): void {

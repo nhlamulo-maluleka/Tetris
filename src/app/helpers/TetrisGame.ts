@@ -1,9 +1,11 @@
-import IPosition, { Point } from "../interfaces/IPosition";
+import IPosition, { Adjacent } from "../interfaces/IPosition";
 import { IGame, IGameState } from "../interfaces/IGame";
 import { Tetris } from "./Tetris";
+import { ErrorsAndBounds } from "./ErrorsAndBounds";
 
 export default class TetrisGame extends Tetris implements IGame, IGameState {
-    gameOver: Boolean = false;
+    private gameOver: Boolean = false;
+    private errorBound!: ErrorsAndBounds;
 
     constructor() {
         super();
@@ -21,6 +23,12 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
             }
             gridContainer.appendChild(rowBlock);
         }
+
+        /**
+         * @brief Instantiating the ErrorsAndBounds class after creating the 
+         * @param blockMatrix and keeping the reference for later use in the errors class.
+         */
+        this.errorBound = new ErrorsAndBounds(this.blockMatrix);
     }
 
     public override renderBlockShape(shapeProps: IPosition): void {
@@ -95,8 +103,16 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
 
         const { current: { center, adjacent: { one, two, three } } } = shapeProps;
 
-        if (!(this.isValidShift(center) && this.isValidShift(one) && this.isValidShift(two) && this.isValidShift(three)))
+        if (!(this.errorBound.isValidShift(center)
+            && this.errorBound.isValidShift(one)
+            && this.errorBound.isValidShift(two)
+            && this.errorBound.isValidShift(three))
+            || !(this.errorBound.isBlockEmpty(center)
+                && this.errorBound.isBlockEmpty(one)
+                && this.errorBound.isBlockEmpty(two)
+                && this.errorBound.isBlockEmpty(three))) {
             this.moveHorizontal(shapeProps, +1)
+        }
 
         this.renderBlockShape(shapeProps)
     }
@@ -108,8 +124,12 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
 
         const { current: { center, adjacent: { one, two, three } } } = shapeProps;
 
-        if (!(this.isValidShift(center) && this.isValidShift(one) && this.isValidShift(two) && this.isValidShift(three)))
+        if (!(this.errorBound.isValidShift(center) && this.errorBound.isValidShift(one)
+            && this.errorBound.isValidShift(two) && this.errorBound.isValidShift(three))
+            || !(this.errorBound.isBlockEmpty(center) && this.errorBound.isBlockEmpty(one)
+                && this.errorBound.isBlockEmpty(two) && this.errorBound.isBlockEmpty(three))) {
             this.moveHorizontal(shapeProps, -1)
+        }
 
         this.renderBlockShape(shapeProps)
     }
@@ -120,55 +140,63 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
         this.moveVertical(shapeProps, +1)
 
         // Check if the block has reached the bottom
-        if (this.isBottom(shapeProps) || this.isStacked(shapeProps)) {
+        if (this.errorBound.isBottom(shapeProps) || this.errorBound.isStacked(shapeProps)) {
             this.moveVertical(shapeProps, -1)
+
+            if (this.errorBound.isTop(shapeProps)) {
+                this.setGameOver(true)
+                return true;
+            }
+
             this.renderBlockShape(shapeProps)
             return true;
-        } else {
-            this.renderBlockShape(shapeProps)
-            console.log("Continue...")
-            return false;
         }
-    }
 
-    /**
-     * @brief The following section contains the available game states
-     * @title GAME_STATES
-     */
-    isBottom(shapeProps: IPosition): Boolean {
-        const { current: { center, adjacent: { one, two, three } } } = shapeProps;
-
-        const bottom: number = this.blockMatrix.length;
-
-        if (center.row >= bottom
-            || one.row >= bottom
-            || two.row >= bottom
-            || three.row >= bottom) {
-            return true;
-        }
+        this.renderBlockShape(shapeProps)
         return false;
     }
 
-    isValidShift({ col }: Point): Boolean {
-        if (col >= 0 && col < this.blockMatrix[0].length)
-            return true;
-        else return false;
-    }
+    rotateBlock(shapeProps: IPosition): void {
+        if (shapeProps.changeDirection) {
+            const { changeDirection: { top, bottom, right, left }, direction } = shapeProps;
 
-    isBlockEmpty({ row, col }: Point): Boolean {
-        if (this.blockMatrix[row][col].dataset['filled'] === String(false))
-            return true;
-        return false;
-    }
+            const changeObject: Adjacent = (direction === 'top' ? right : direction === 'right' ? bottom : direction === 'bottom' ? left : top);
 
-    isStacked(shapeProps: IPosition): Boolean {
-        const { current: { center, adjacent: { one, two, three } } } = shapeProps;
+            shapeProps.current.adjacent.one.row += changeObject.one.row;
+            shapeProps.current.adjacent.one.col += changeObject.one.col;
 
-        if (this.isBlockEmpty(center) && this.isBlockEmpty(one)
-            && this.isBlockEmpty(two) && this.isBlockEmpty(three)) {
-            return false;
+            shapeProps.current.adjacent.two.row += changeObject.two.row;
+            shapeProps.current.adjacent.two.col += changeObject.two.col;
+
+            shapeProps.current.adjacent.three.row += changeObject.three.row;
+            shapeProps.current.adjacent.three.col += changeObject.three.col;
+
+            const { previous, current: { center, adjacent: { one, two, three } } } = shapeProps;
+
+            if (previous) {
+                // Checking the sides....
+                if (!(this.errorBound.isValidShift(center) && this.errorBound.isValidShift(one)
+                    && this.errorBound.isValidShift(two) && this.errorBound.isValidShift(three))
+                    || this.errorBound.isBottom(shapeProps)
+                    || !(this.errorBound.isBlockEmpty(center) && this.errorBound.isBlockEmpty(one)
+                        && this.errorBound.isBlockEmpty(two) && this.errorBound.isBlockEmpty(three))) {
+                    shapeProps.current.adjacent.one.row -= changeObject.one.row;
+                    shapeProps.current.adjacent.one.col -= changeObject.one.col;
+
+                    shapeProps.current.adjacent.two.row -= changeObject.two.row;
+                    shapeProps.current.adjacent.two.col -= changeObject.two.col;
+
+                    shapeProps.current.adjacent.three.row -= changeObject.three.row;
+                    shapeProps.current.adjacent.three.col -= changeObject.three.col;
+                }
+                else
+                    shapeProps.direction = (direction === 'top' ? 'right' : direction === 'right' ? 'bottom' : direction === 'bottom' ? 'left' : 'top');
+            }
         }
-        return true;
+    }
+
+    setGameOver(state: Boolean) {
+        this.gameOver = state;
     }
 
     public isGameOver(): Boolean {

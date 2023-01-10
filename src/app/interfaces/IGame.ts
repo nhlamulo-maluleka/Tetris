@@ -8,9 +8,5 @@ export interface IGame {
 }
 
 export interface IGameState {
-    isBottom(shapeProps: IPosition): Boolean
-    isValidShift({ col }: Point): Boolean
-    isBlockEmpty({ row, col }: Point): Boolean
-    isStacked(shapeProps: IPosition): Boolean
-    isGameOver(): Boolean
+    isGameOver(): Boolean 
 }
