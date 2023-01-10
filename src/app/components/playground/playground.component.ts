@@ -14,7 +14,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 	private currentShape!: IPosition | null;
 	private ROW_SIZE: number = 21;
 	private COLUMN_SIZE: number = 17;
-	private duration: number = 1000;
+	private duration: number = 500;
 	private gameState$!: Subscription;
 
 	@ViewChild('playgroundContainer', { static: true })
@@ -29,10 +29,12 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 		this.game.renderBlockMatrix(this.gameContainer, this.ROW_SIZE, this.COLUMN_SIZE);
 		this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
 
-		// this.gameState$ = update$.subscribe(() => {
-		// 	if (this.blocks.move(this.currentShape!))
-		// 		this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
-		// })
+		this.gameState$ = update$.subscribe(() => {
+			if(this.game.isGameOver()) this.gameState$.unsubscribe()
+
+			if (this.game.descendShapeOrGenerate(this.currentShape!))
+				this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
+		})
 	}
 
 	ngOnInit(): void {
@@ -41,20 +43,20 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 				|| event.code === "ArrowRight" || event.code === "ArrowDown")
 				&& (this.currentShape !== null)) {
 
-				// switch (event.code) {
-				// 	case "Space":
-				// 		this.blocks.transform(this.currentShape)
-				// 		break;
-				// 	case "ArrowLeft":
-				// 		this.blocks.shiftLeft(this.currentShape)
-				// 		break;
-				// 	case "ArrowRight":
-				// 		this.blocks.shiftRight(this.currentShape)
-				// 		break;
-				// 	case "ArrowDown":
-				// 		this.blocks.move(this.currentShape)
-				// 		break;
-				// }
+				switch (event.code) {
+					case "Space":
+						this.game.transformShape(this.currentShape)
+						break;
+					case "ArrowLeft":
+						this.game.shiftLeft(this.currentShape)
+						break;
+					case "ArrowRight":
+						this.game.shiftRight(this.currentShape)
+						break;
+					case "ArrowDown":
+						this.game.descendShapeOrGenerate(this.currentShape)
+						break;
+				}
 			}
 		})
 	}
