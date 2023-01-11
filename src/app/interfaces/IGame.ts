@@ -8,5 +8,7 @@ export interface IGame {
 }
 
 export interface IGameState {
-    isGameOver(): Boolean 
+    isGameOver(): boolean
+    matchedBlocks(): number
+    updateGridBlocks(): void
 }

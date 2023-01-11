@@ -1,10 +1,10 @@
-import IPosition, { Adjacent } from "../interfaces/IPosition";
+import IPosition, { Adjacent, Point } from "../interfaces/IPosition";
 import { IGame, IGameState } from "../interfaces/IGame";
 import { Tetris } from "./Tetris";
 import { ErrorsAndBounds } from "./ErrorsAndBounds";
 
 export default class TetrisGame extends Tetris implements IGame, IGameState {
-    private gameOver: Boolean = false;
+    private gameOver: boolean = false;
     private errorBound!: ErrorsAndBounds;
 
     constructor() {
@@ -195,11 +195,63 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
         }
     }
 
-    setGameOver(state: Boolean) {
+    public setGameOver(state: boolean) {
         this.gameOver = state;
     }
 
-    public isGameOver(): Boolean {
+    public isGameOver(): boolean {
         return this.gameOver;
+    }
+
+    public matchedBlocks(): number {
+        // const arrSize: Array<Array<HTMLDivElement>> = ;
+        let matchCount: number = 0;
+
+        for (let rowIndex = this.blockMatrix.length - 1; rowIndex >= 0; rowIndex--) {
+            /**
+             * We start by assuming that the [row] is filled
+             * And then attempt to prove the assumption (true | false)
+             */
+            let rowFilled: boolean = true;
+
+            for (let colIndex in this.blockMatrix[rowIndex]) {
+                /**
+                 * If the assumption is found to be incorrect, 
+                 * break the loop and try again.
+                 */
+                if (this.blockMatrix[rowIndex][colIndex].dataset['filled'] === String(false)) {
+                    rowFilled = false;
+                    break;
+                }
+            }
+
+            /**
+             * Assumption [correct]
+             */
+            if (rowFilled) {
+                matchCount += 1;
+
+                this.updateGridBlocks()
+
+                return this.matchedBlocks();
+            }
+        }
+
+        return matchCount;
+    }
+
+    public updateGridBlocks(): void {
+        for (let rowIndex = this.blockMatrix.length - 1; rowIndex >= 0; rowIndex--) {
+            for (let blockIndex in this.blockMatrix[rowIndex]) {
+                const point: Point = { row: rowIndex, col: Number(blockIndex) }
+                this.clearBlock(point)
+
+                if (rowIndex - 1 >= 0) {
+                    this.blockMatrix[rowIndex][point.col].style.backgroundImage = this.blockMatrix[rowIndex - 1][point.col].style.backgroundImage;
+                    this.blockMatrix[rowIndex][point.col].style.backgroundSize = this.blockMatrix[rowIndex - 1][point.col].style.backgroundSize;
+                    this.blockMatrix[rowIndex][point.col].dataset['filled'] = this.blockMatrix[rowIndex - 1][point.col].dataset['filled'];
+                }
+            }
+        }
     }
 }

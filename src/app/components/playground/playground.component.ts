@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { interval, Observable, Subscription } from 'rxjs';
 import ShapeGenerator from 'src/app/helpers/ShapeGenerator';
-import TetrisGame from 'src/app/helpers/TetrisGame';
 import IPosition from 'src/app/interfaces/IPosition';
 import { TetrisService } from 'src/app/services/tetris.service';
 
@@ -15,7 +14,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 	private currentShape!: IPosition | null;
 	private ROW_SIZE: number = 21;
 	private COLUMN_SIZE: number = 17;
-	private duration: number = 100;
+	private duration: number = 1000;
 	private gameState$!: Subscription;
 	private update$!: Observable<number>;
 
@@ -39,8 +38,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 			}
 
 			if (this.game.descendShapeOrGenerate(this.currentShape!)) {
-				
-
+				console.log(this.game.matchedBlocks())
 				this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
 			}
 		})	
