@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { interval, Observable, Subscription } from 'rxjs';
 import ShapeGenerator from 'src/app/helpers/ShapeGenerator';
 import IPosition from 'src/app/interfaces/IPosition';
@@ -14,14 +14,21 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 	private currentShape!: IPosition | null;
 	private ROW_SIZE: number = 21;
 	private COLUMN_SIZE: number = 17;
-	private duration: number = 1000;
+	private duration: number = 500;
 	private gameState$!: Subscription;
 	private update$!: Observable<number>;
+	private totalScore: number = 0;
+	private matchedBlocks!: number;
+
+	@Output()
+	scoreEmitter!: EventEmitter<number>; 
 
 	@ViewChild('playgroundContainer', { static: true })
 	container!: ElementRef
 
-	constructor(private game: TetrisService) { }
+	constructor(private game: TetrisService) { 
+		this.scoreEmitter = new EventEmitter();
+	}
 
 	private startGame(gridContainer: HTMLDivElement): void {
 		this.update$ = interval(this.duration)
@@ -38,7 +45,11 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 			}
 
 			if (this.game.descendShapeOrGenerate(this.currentShape!)) {
-				console.log(this.game.matchedBlocks())
+				this.matchedBlocks = this.game.matchedBlocks();
+				if(this.matchedBlocks > 0){
+					this.totalScore += (this.matchedBlocks * 5);
+					this.scoreEmitter.emit(this.totalScore);
+				}
 				this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
 			}
 		})	

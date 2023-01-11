@@ -7,12 +7,26 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'tetris';
+  private score: number = 0;
+  private level: number = 1;
 
-  constructor() {
-    // this.keyEmitter = new EventEmitter();
+  constructor() { }
+
+  public setPlayerScore(scoreVal: number){
+    this.score = scoreVal;
   }
 
-  ngOnInit(): void {
-    
+  public increaseLevel(){
+    this.level += 1;
   }
+
+  public get gameLevel(){
+    return this.level;
+  }
+
+  public get playerScore(){
+    return this.score;
+  }
+
+  ngOnInit(): void { }
 }

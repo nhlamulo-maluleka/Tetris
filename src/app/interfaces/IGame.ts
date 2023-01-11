@@ -10,5 +10,5 @@ export interface IGame {
 export interface IGameState {
     isGameOver(): boolean
     matchedBlocks(): number
-    updateGridBlocks(): void
+    updateGridBlocks(rowIndex: number): void
 }

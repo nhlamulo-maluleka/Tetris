@@ -1,22 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 $blockSize: 28px;
 
-.rowBlock {
+body {
+    background: url(./assets/bg.gif);
+
+  .rowBlock {
     display: flex;
     flex-wrap: nowrap;
     // gap: .2rem;
     // margin-bottom: .2rem;
 
-    .block {
-        width: $blockSize;
-        height: $blockSize;
-        background-color: rgb(19, 9, 9);
-        border: 1px solid rgb(34, 34, 34);
-        background-size: cover;
-        // border-radius: .2rem;
+    @keyframes borderGlow {
+      0% {
+        box-shadow: 0 0 1px rgba(161, 126, 11, 0.603),
+          0 0 2px rgba(216, 66, 6, 0.603);
+      }
+
+      25% {
+        box-shadow: 0 0 2px rgb(7, 201, 185), 0 0 2px rgb(17, 22, 24),
+          0 0 2px rgb(228, 34, 99);
+      }
+
+      50% {
+        box-shadow: 0 0 2px rgb(109, 109, 109), 0 0 1px rgb(3, 53, 66),
+          0 0 2px rgb(165, 6, 228);
+      }
+
+      75% {
+        box-shadow: 0 0 2px rgb(109, 109, 109), 0 0 1px rgb(3, 53, 66),
+          0 0 2px rgb(165, 6, 228);
+      }
+
+      100% {
+        box-shadow: 0 0 2px rgb(52, 13, 143), 0 0 1px rgb(221, 224, 3),
+          0 0 2px rgb(228, 21, 6);
+      }
     }
+
+    .block {
+      width: $blockSize;
+      height: $blockSize;
+      background-color: rgba(92, 84, 84, 0.055);
+      border: 1px solid rgba(177, 177, 177, 0.233);
+      background-size: cover;
+      animation: infinite 5s borderGlow;
+    }
+  }
 }

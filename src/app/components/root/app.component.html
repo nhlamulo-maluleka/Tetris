@@ -2,7 +2,38 @@
   <div class="row m-0 d-block">
     <game-navigation></game-navigation>
     <div class="gameBody">
-      <game-playground></game-playground>
+      <div class="gameInfo">
+        <div class="card score">
+          <div class="card-body">
+            <div class="progress">
+              <div class="overlay">
+                <span>
+                  <label>{{playerScore}}</label>
+                  <label>points</label>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gameArea">
+        <video class="video-bg" src="../../../assets/bgVid.mp4" loop autoplay></video>
+        <game-playground (scoreEmitter)="setPlayerScore($event)"></game-playground>
+      </div>
+      <div class="levelArea">
+        <div class="card blocks">
+          <div class="card-body">
+            <div class="progress">
+              <div class="overlay">
+                <span>
+                  <label>{{gameLevel}}</label>
+                  <label>Level</label>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -3,8 +3,10 @@ import ITetris from "../interfaces/ITetris";
 
 export abstract class Tetris implements ITetris {
     protected blockMatrix!: Array<Array<HTMLDivElement>>;
-
-    constructor() {}
+    private globalBackground: string = "rgba(19, 9, 9, 0.055)";
+    private globalBorder: string = "1px solid rgba(177, 177, 177, 0.233)"
+    
+    constructor() { }
 
     createBlock(): HTMLDivElement {
         const block: HTMLDivElement = document.createElement('div');
@@ -21,7 +23,7 @@ export abstract class Tetris implements ITetris {
 
     createBlockMatrix(rowSize: number, columnSize: number): Array<Array<HTMLDivElement>> {
         this.blockMatrix = new Array<Array<HTMLDivElement>>();
-        
+
         for (let row = 0; row < rowSize; row++) {
             this.blockMatrix.push(new Array<HTMLDivElement>());
 
@@ -45,23 +47,25 @@ export abstract class Tetris implements ITetris {
         shapeProps.current.adjacent.two.row += step
         shapeProps.current.adjacent.three.row += step
     }
-    
+
     fillBlock({ row, col }: Point, image: string): void {
         this.blockMatrix[row][col].style.backgroundImage = `url(../../../assets/blocks/${image})`;
         this.blockMatrix[row][col].style.backgroundSize = 'cover'
+        this.blockMatrix[row][col].style.border = 'none'
         this.blockMatrix[row][col].dataset['filled'] = String(true);
     }
-    
+
     clearBlock({ row, col }: Point): void {
         this.blockMatrix[row][col].style.background = 'none'
-        this.blockMatrix[row][col].style.background = 'rgb(19, 9, 9)'
+        this.blockMatrix[row][col].style.backgroundColor = this.globalBackground;
+        this.blockMatrix[row][col].style.border = this.globalBorder;
         this.blockMatrix[row][col].dataset['filled'] = String(false);
     }
 
-    public getBlockMatrix(){
+    public getBlockMatrix() {
         return this.blockMatrix;
     }
-    
+
     // For rendering the grid matrix 
     abstract renderBlockMatrix(gridContainer: HTMLDivElement, rows: number, columns: number): void;
     abstract rotateBlock(shapeProps: IPosition): void

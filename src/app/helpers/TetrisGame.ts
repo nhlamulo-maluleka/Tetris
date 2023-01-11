@@ -231,17 +231,17 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
             if (rowFilled) {
                 matchCount += 1;
 
-                this.updateGridBlocks()
+                this.updateGridBlocks(rowIndex)
 
-                return this.matchedBlocks();
+                return this.matchedBlocks() + 1;
             }
         }
 
         return matchCount;
     }
 
-    public updateGridBlocks(): void {
-        for (let rowIndex = this.blockMatrix.length - 1; rowIndex >= 0; rowIndex--) {
+    public updateGridBlocks(rowIndex: number): void {
+        for (; rowIndex >= 0; rowIndex--) {
             for (let blockIndex in this.blockMatrix[rowIndex]) {
                 const point: Point = { row: rowIndex, col: Number(blockIndex) }
                 this.clearBlock(point)
