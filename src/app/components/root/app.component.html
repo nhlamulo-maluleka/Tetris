@@ -3,36 +3,26 @@
     <game-navigation></game-navigation>
     <div class="gameBody">
       <div class="gameInfo">
-        <div class="card score">
-          <div class="card-body">
-            <div class="progress">
-              <div class="overlay">
-                <span>
-                  <label>{{playerScore}}</label>
-                  <label>points</label>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <game-info [type]="'points'" [score]="playerScore"></game-info>
       </div>
       <div class="gameArea">
-        <video class="video-bg" src="../../../assets/bgVid.mp4" loop autoplay></video>
-        <game-playground (scoreEmitter)="setPlayerScore($event)"></game-playground>
+        <video
+          #bgvideo
+          class="video-bg"
+          src="../../../assets/bgVid.mp4"
+          [volume]="0.5"
+          [autoplay]="true"
+          [muted]="true"
+          [loop]="true"
+        > 
+      </video>
+        <game-playground
+          (scoreEmitter)="setPlayerScore($event)"
+          (gameOverEmitter)="setGameState($event)"
+        ></game-playground>
       </div>
       <div class="levelArea">
-        <div class="card blocks">
-          <div class="card-body">
-            <div class="progress">
-              <div class="overlay">
-                <span>
-                  <label>{{gameLevel}}</label>
-                  <label>Level</label>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <game-info [type]="'level'" [level]="gameLevel"></game-info>
       </div>
     </div>
   </div>

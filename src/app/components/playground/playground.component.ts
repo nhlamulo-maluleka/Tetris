@@ -23,11 +23,15 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 	@Output()
 	scoreEmitter!: EventEmitter<number>; 
 
+	@Output()
+	gameOverEmitter!: EventEmitter<boolean>;
+
 	@ViewChild('playgroundContainer', { static: true })
 	container!: ElementRef
 
 	constructor(private game: TetrisService) { 
 		this.scoreEmitter = new EventEmitter();
+		this.gameOverEmitter = new EventEmitter();
 	}
 
 	private startGame(gridContainer: HTMLDivElement): void {
@@ -40,14 +44,14 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 		this.gameState$ = this.update$.subscribe(() => {
 			if (this.game.isGameOver()) {
 				this.gameState$.unsubscribe()
-
+				this.gameOverEmitter.emit(true);
 				this.startGame(gridContainer)
 			}
 
 			if (this.game.descendShapeOrGenerate(this.currentShape!)) {
 				this.matchedBlocks = this.game.matchedBlocks();
 				if(this.matchedBlocks > 0){
-					this.totalScore += (this.matchedBlocks * 5);
+					this.totalScore += (this.matchedBlocks * this.COLUMN_SIZE);
 					this.scoreEmitter.emit(this.totalScore);
 				}
 				this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
@@ -62,12 +66,12 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		document.addEventListener("keydown", (event: KeyboardEvent) => {
-			if ((event.code === "Space" || event.code === "ArrowLeft"
+			if ((event.code === "ArrowUp" || event.code === "ArrowLeft"
 				|| event.code === "ArrowRight" || event.code === "ArrowDown")
 				&& (this.currentShape !== null)) {
 
 				switch (event.code) {
-					case "Space":
+					case "ArrowUp":
 						this.game.transformShape(this.currentShape)
 						break;
 					case "ArrowLeft":

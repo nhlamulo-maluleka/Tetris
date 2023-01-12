@@ -1,12 +1,6 @@
 $blockbg: rgba(220, 252, 252, 0.4);
 $borderRadius: 10px;
 
-@mixin centerContainer() {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .canvas {
   position: relative;
   background-image: url("../../../assets/bgVid.mp4");
@@ -19,7 +13,7 @@ $borderRadius: 10px;
   .gameBody {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     width: 90%;
     height: 100%;
     justify-content: center;
@@ -36,79 +30,6 @@ $borderRadius: 10px;
       justify-content: center;
       align-items: center;
       background-color: transparent;
-
-      .score {
-        position: relative;
-        top: 0.3rem;
-        background-color: transparent;
-        border: 0;
-
-        .card-body {
-          @include centerContainer;
-
-          .progress {
-            position: relative;
-            min-width: 150px;
-            min-height: 150px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-
-            @keyframes borderSize {
-              from {
-                border: 0;
-              }
-
-              to {
-                border: 10px solid rgb(7, 168, 88);
-                box-shadow: 0 0 12px rgb(226, 149, 5), 
-                            0 0 12px rgb(49, 226, 5),
-                            0 0 12px rgb(226, 49, 5);
-              }
-            }
-
-            .overlay {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background-color: #001;
-              border-radius: 50%;
-              animation: infinite borderSize 1s ease;
-
-              span {
-                display: block;
-                label {
-                  &:nth-child(1) {
-                    color: rgb(255, 0, 212);
-                    font-size: 30pt;
-                    font-family: "Courier New", Courier, monospace, sans-serif;
-                    text-shadow: 0 0 2px rgb(226, 149, 5),
-                      0 0 2px rgb(49, 226, 5), 0 0 2px rgb(226, 49, 5);
-                  }
-
-                  &:nth-child(2) {
-                    font-size: 7pt;
-                    font-family: Cambria, Cochin, Georgia, Times,
-                      "Times New Roman", serif;
-                  }
-                }
-              }
-            }
-          }
-
-          label {
-            color: #fff;
-            font-size: 40pt;
-            font-family: Impact, Haettenschweiler, "Arial Narrow Bold",
-              sans-serif;
-          }
-        }
-      }
     }
 
     .gameArea {
@@ -132,56 +53,6 @@ $borderRadius: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
-
-      .blocks {
-        background-color: transparent;
-
-        .card-body {
-          @include centerContainer;
-
-          .progress {
-            position: relative;
-            min-width: 130px;
-            min-height: 130px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-
-            .overlay {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background-color: #001;
-              border-radius: 50%;
-              z-index: 99;
-              border: 10px solid rgb(215, 39, 221);
-              box-shadow: 0 0 10px rgb(215, 39, 221), 0 0 5px rgb(25, 11, 216),
-                0 0 10px rgb(216, 11, 96);
-
-              span {
-                label {
-                  &:nth-child(1) {
-                    color: chartreuse;
-                    font-size: 40pt;
-                    font-family: Impact, Haettenschweiler, "Arial Narrow Bold",
-                      sans-serif;
-                  }
-
-                  &:nth-child(2) {
-                    font-size: 10pt;
-                    color: antiquewhite;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }

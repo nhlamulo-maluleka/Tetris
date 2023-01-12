@@ -1,0 +1,18 @@
+<div class="card gameinfo">
+  <div class="card-body">
+    <div class="progress">
+      <div class="overlay">
+        <div [ngSwitch]="type" class="infodetails">
+          <div *ngSwitchCase="'points'">
+            <label>{{score}}</label>
+            <label>{{type}}</label>
+          </div>
+          <div *ngSwitchCase="'level'">
+            <label>{{level}}</label>
+            <label>{{type}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

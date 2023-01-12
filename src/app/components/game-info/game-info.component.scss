@@ -1,0 +1,86 @@
+@mixin centerContainer() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+$barSize: 170px;
+
+.gameinfo {
+    position: relative;
+    top: 0.3rem;
+    background-color: transparent;
+    border: 0;
+
+    .card-body {
+        @include centerContainer;
+
+        .progress {
+            position: relative;
+            min-width: $barSize;
+            min-height: $barSize;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+
+            @keyframes borderSize {
+                from {
+                    border: 0;
+                }
+
+                to {
+                    border: 10px solid rgb(7, 168, 88);
+                    box-shadow: 0 0 12px rgb(226, 149, 5),
+                        0 0 12px rgb(49, 226, 5),
+                        0 0 12px rgb(226, 49, 5);
+                }
+            }
+
+            .overlay {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #001;
+                border-radius: 50%;
+                animation: infinite borderSize 1s ease;
+
+                .infodetails {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    label {
+                        display: block;
+                        text-align: center;
+
+                        &:nth-child(1) {
+                            color: rgb(255, 0, 212);
+                            font-size: 30pt;
+                            font-family: "Courier New", Courier, monospace, sans-serif;
+                            text-shadow: 0 0 2px rgb(226, 149, 5),
+                                0 0 2px rgb(49, 226, 5), 0 0 2px rgb(226, 49, 5);
+                        }
+
+                        &:nth-child(2) {
+                            font-size: 7pt;
+                            font-family: Cambria, Cochin, Georgia, Times,
+                                "Times New Roman", serif;
+                        }
+                    }
+                }
+            }
+        }
+
+        label {
+            color: #fff;
+            font-size: 40pt;
+            font-family: Impact, Haettenschweiler, "Arial Narrow Bold",
+                sans-serif;
+        }
+    }
+}

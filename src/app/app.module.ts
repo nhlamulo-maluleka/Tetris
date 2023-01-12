@@ -7,12 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PlaygroundComponent } from './components/playground/playground.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TetrisService } from './services/tetris.service';
+import { GameInfoComponent } from './components/game-info/game-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlaygroundComponent,
     NavigationComponent,
+    GameInfoComponent,
   ],
   imports: [
     BrowserModule,
