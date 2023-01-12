@@ -10,6 +10,19 @@ $borderRadius: 10px;
   height: 100vh;
   vertical-align: middle;
 
+  .startGame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+  }
+
   .gameBody {
     position: relative;
     display: grid;

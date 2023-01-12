@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { timer } from 'rxjs';
+import { Component, ElementRef, ViewChild, OnInit, AfterViewInit, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'game-root',
@@ -11,18 +10,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   private score: number = 0;
   private level: number = 1;
   private gameOver: boolean = false;
+  private gameStarted: boolean = false;
+  bgVideo!: ElementRef
 
-  @ViewChild('bgvideo')
-  bgvideo!: ElementRef;
+  @ViewChild('bgVideoUnderlay')
+  videoElement!: ElementRef;
 
   constructor() { }
 
   ngAfterViewInit(): void {
-    const $wait = timer(2000, 100)
-    const $stream = $wait.subscribe(() => {
-      this.bgvideo.nativeElement.muted = false;
-      // $stream.unsubscribe();
-    })
+    this.bgVideo = this.videoElement;
   }
 
   public setPlayerScore(scoreVal: number) {
@@ -35,10 +32,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.level = 1;
     }
     this.gameOver = state;
+    this.setStartGame(!state)
   }
 
   public increaseLevel() {
     this.level += 1;
+  }
+
+  public setStartGame(state: boolean) {
+    this.gameStarted = state;
   }
 
   public get gameLevel() {
@@ -53,5 +55,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     return this.gameOver;
   }
 
+  public get isGameStarted() {
+    return this.gameStarted;
+  }
+
   ngOnInit(): void { }
 }
+

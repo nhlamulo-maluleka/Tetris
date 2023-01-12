@@ -15,6 +15,26 @@ $barSize: 170px;
     .card-body {
         @include centerContainer;
 
+        @keyframes shadow {
+            0%{
+                box-shadow: 0 0 4px rgb(5, 226, 226),
+                            0 0 3px rgb(49, 226, 5),
+                            0 0 4px rgb(189, 117, 22);
+            }
+
+            60%{
+                box-shadow: 0 0 19px rgb(226, 149, 5),
+                            0 0 18px rgb(49, 226, 5),
+                            0 0 20px rgb(226, 49, 5);
+            }
+
+            100%{
+                box-shadow: 0 0 5px rgb(226, 5, 5),
+                            0 0 8px rgb(226, 75, 5),
+                            0 0 7px rgb(169, 22, 189);
+            }
+        }
+
         .progress {
             position: relative;
             min-width: $barSize;
@@ -24,17 +44,24 @@ $barSize: 170px;
             justify-content: center;
             align-items: center;
             padding: 0;
+            transition: all 1s;
+            animation: infinite shadow 13s ease;
 
             @keyframes borderSize {
-                from {
-                    border: 0;
+                0% {
+                    border: 1px solid rgb(5, 163, 226);
                 }
 
-                to {
-                    border: 10px solid rgb(7, 168, 88);
-                    box-shadow: 0 0 12px rgb(226, 149, 5),
-                        0 0 12px rgb(49, 226, 5),
-                        0 0 12px rgb(226, 49, 5);
+                20% {
+                    border: 2px ridge rgb(5, 163, 226); 
+                }
+
+                50% {
+                    border: 3px double rgb(226, 149, 5); 
+                }
+
+                100% {
+                    border: 1px groove rgb(226, 49, 5); 
                 }
             }
 
@@ -47,7 +74,8 @@ $barSize: 170px;
                 align-items: center;
                 background-color: #001;
                 border-radius: 50%;
-                animation: infinite borderSize 1s ease;
+                transition: border 1s;
+                animation: infinite borderSize 13s ease;
 
                 .infodetails {
                     display: flex;

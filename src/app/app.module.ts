@@ -8,6 +8,8 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { TetrisService } from './services/tetris.service';
 import { GameInfoComponent } from './components/game-info/game-info.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GameBannerComponent } from './components/game-banner/game-banner.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +17,13 @@ import { GameInfoComponent } from './components/game-info/game-info.component';
     PlaygroundComponent,
     NavigationComponent,
     GameInfoComponent,
+    GameBannerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [TetrisService],
   bootstrap: [AppComponent]

@@ -1,4 +1,7 @@
 <div class="fluid-container canvas">
+  <div class="startGame" *ngIf="!isGameStarted">
+    <game-banner (startGameEmitter)="setStartGame($event)"></game-banner>
+  </div>
   <div class="row m-0 d-block">
     <game-navigation></game-navigation>
     <div class="gameBody">
@@ -7,18 +10,19 @@
       </div>
       <div class="gameArea">
         <video
-          #bgvideo
+          #bgVideoUnderlay
           class="video-bg"
           src="../../../assets/bgVid.mp4"
           [volume]="0.5"
-          [autoplay]="true"
-          [muted]="true"
           [loop]="true"
         > 
       </video>
         <game-playground
+          [videoElement]="bgVideo"
+          [startGame]="isGameStarted"
           (scoreEmitter)="setPlayerScore($event)"
           (gameOverEmitter)="setGameState($event)"
+          (gameLevelEmitter)="increaseLevel()"
         ></game-playground>
       </div>
       <div class="levelArea">

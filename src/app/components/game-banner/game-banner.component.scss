@@ -1,0 +1,43 @@
+.card {
+  position: relative;
+  background-color: transparent;
+  padding: 1rem;
+
+  .startHeader {
+    margin: 1rem;
+
+    h1 {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      color: rgb(241, 72, 50);
+      font-size: 50pt;
+    }
+  }
+
+  .startBtn {
+    display: flex;
+    justify-content: center;
+    background-color: aliceblue;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: auto;
+    width: fit-content;
+    transition: all 0.5s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(4, 39, 73);
+      box-shadow: 0 0 14px rgb(235, 126, 126), 0 0 12px rgb(235, 228, 126),
+        0 0 14px rgb(218, 176, 212);
+
+      .playBtn {
+        color: rgb(215, 224, 215);
+      }
+    }
+
+    .playBtn {
+      font-size: 12pt;
+      pointer-events: none;
+      transition: all 0.5s;
+    }
+  }
+}
