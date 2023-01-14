@@ -72,12 +72,14 @@ export class PlaygroundComponent implements OnInit, AfterViewInit, OnChanges {
 			}
 
 			// Starts the game
-			if (currentGameChange.currentValue) {
+			if (currentGameChange.currentValue === true) {
 				this.currentShape = ShapeGenerator.generateRandomBlockShape(this.COLUMN_SIZE);
-				this.video.nativeElement.play()
+				this.video.nativeElement.loop = true;
+				this.video.nativeElement.volume = .5;
+				this.video.nativeElement.play();
 				this.beginTetris();
 			}
-			else if (!currentGameChange.currentValue) {
+			else if (currentGameChange.currentValue === false) {
 				this.gameState$?.unsubscribe();
 				if (this.video) {
 					this.video.nativeElement.pause();

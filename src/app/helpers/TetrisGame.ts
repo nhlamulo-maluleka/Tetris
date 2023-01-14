@@ -55,22 +55,18 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
                 case "top":
                     // Rotate Right
                     this.rotateBlock(shapeProps)
-                    shapeProps.direction = "right"
                     break;
                 case "right":
                     // Rotate Bottom
                     this.rotateBlock(shapeProps)
-                    shapeProps.direction = "bottom"
                     break;
                 case "bottom":
                     // Rotate Left
                     this.rotateBlock(shapeProps)
-                    shapeProps.direction = "left"
                     break;
                 case "left":
                     // Rotate Top
                     this.rotateBlock(shapeProps)
-                    shapeProps.direction = "top"
                     break;
             }
 
@@ -177,8 +173,10 @@ export default class TetrisGame extends Tetris implements IGame, IGameState {
                 // Checking the sides....
                 if (!(this.errorBound.isValidShift(center) && this.errorBound.isValidShift(one)
                     && this.errorBound.isValidShift(two) && this.errorBound.isValidShift(three))
-                    || this.errorBound.isBottom(shapeProps)
-                    || !(this.errorBound.isBlockEmpty(center) && this.errorBound.isBlockEmpty(one)
+                    || 
+                    this.errorBound.isBottom(shapeProps)
+                    || 
+                    !(this.errorBound.isBlockEmpty(center) && this.errorBound.isBlockEmpty(one)
                         && this.errorBound.isBlockEmpty(two) && this.errorBound.isBlockEmpty(three))) {
                     shapeProps.current.adjacent.one.row -= changeObject.one.row;
                     shapeProps.current.adjacent.one.col -= changeObject.one.col;
